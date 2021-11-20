@@ -6,6 +6,15 @@ The plugin is based on [Jake Lows remark-sectionize plugin](https://github.com/j
 
 The wrapper tags can be generated inserted down to a certain header level to allow for splitting large documents.
 
+## Goal
+
+- Set start and max depth
+- Select your own set of wrapper tags depending on header depth
+- Support MDSVX wrapper tags
+- Support custom IDs
+- Support custom classes
+- Support targeted sections
+
 ## Wrapper ID
 
 The ID is generated from the heading. All content within parenthesis are removed and the string is turned into a valid ID.
