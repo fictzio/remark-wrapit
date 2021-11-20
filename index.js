@@ -14,7 +14,7 @@ function transform (tree) {
     visit(
       tree,
       node => node.type === 'heading' && node.depth === depth,
-      chunkify
+      wrapit
     )
   }
 }
@@ -49,11 +49,11 @@ function toSlug(text) {
   }
 }
 
-function getAccess(text) {
+function getTarget(text) {
   if (text.indexOf('(@') > 0) {
     let regExp = /\(@([^)]+)\)/;
-    let access = regExp.exec(text)
-    return access[1]
+    let target = regExp.exec(text)
+    return target[1]
     .trim()
     .toLowerCase()
   } else {
@@ -73,10 +73,10 @@ function getClass(text) {
   }
 }
 
-function chunkify (node, ancestors) {
+function wrapit (node, ancestors) {
   let header_value = node.children[0].value
 
-  const access = getAccess(header_value)
+  const Target = getTarget(header_value)
   let customClass = getClass(header_value)
 
   const start = node
@@ -107,7 +107,7 @@ function chunkify (node, ancestors) {
       hProperties: {
         className: `node-level-${depth}` + `${customClass}`,
         id: `${id}`,
-        "data-access": access,
+        "data-Target": Target,
       },
     }
   }
