@@ -1,0 +1,25 @@
+{
+  "name": "remark-wrapit",
+  "version": "0.8.0",
+  "description": "Remark plugin to wrap headings and their content in wrapper tags. Default tag is section. Each wrapper will recieve a class indicating its level and an ID based on its heading.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://privatemonkey/remark-wrapit"
+  },
+  "keywords": [
+    "remark",
+    "plugin",
+    "markdown",
+    "section"
+  ],
+  "author": "PrivateMonkey",
+  "license": "MIT",
+  "dependencies": {
+    "unist-util-find-after": "^4.0.0",
+    "unist-util-visit-parents": "^5.1.0"
+  }
+}
