@@ -1,6 +1,6 @@
 # remark-wrapit
 
-This is an [remark](https://github.com/remarkjs/remark) plugin to wrap each heading and the content that follows it in a wrapper tag of your choice. For now its using `<section>` but it will support custom sets of wrapper tags based on heading depth.
+This is a [remark](https://github.com/remarkjs/remark) plugin to wrap each heading and the content that follows it in a wrapper tag of your choice. For now it `<section>` is used as wrapper but it will support custom sets of wrapper tags based on heading depth.
 
 The plugin is based on [Jake Lows remark-sectionize plugin](https://github.com/jake-low/remark-sectionize) but has an addition set of features to allow more granular CSS styling as well as the possibility to handle use cases where each section is targeted to a specific user/role.
 

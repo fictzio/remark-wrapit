@@ -1,24 +1,30 @@
-const findAfter = require('unist-util-find-after')
-const visit = require('unist-util-visit-parents')
+//const findAfter = require('unist-util-find-after')
+//const visit = require('unist-util-visit-parents')
+import { findAfter } from 'unist-util-find-after'
+import { visitParents } from 'unist-util-visit-parents'
 
 const MAX_HEADING_DEPTH = 6
 
-module.exports = plugin
-
-function plugin () {
+export default function wrapit () {
   return transform
 }
 
 function transform (tree) {
   for (let depth = MAX_HEADING_DEPTH; depth > 0; depth--) {
-    visit(
+    visitParents(
       tree,
       node => node.type === 'heading' && node.depth === depth,
-      wrapit
+      wrapitMain
     )
   }
 }
 
+/*
+* toSlug
+* ! Simplify this one
+* TODO: Refactor to remove nested ifs
+* @param text
+*/
 function toSlug(text) {
   let hasParenthesis = text.indexOf('(')
 
@@ -73,7 +79,7 @@ function getClass(text) {
   }
 }
 
-function wrapit (node, ancestors) {
+function wrapitMain (node, ancestors) {
   let header_value = node.children[0].value
 
   const Target = getTarget(header_value)
@@ -95,8 +101,6 @@ function wrapit (node, ancestors) {
   )
 
   const id = toSlug(header_value)
-
-  console.log(`${customClass}`)
 
   const section = {
     type: 'section',
