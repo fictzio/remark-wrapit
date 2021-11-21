@@ -14,7 +14,7 @@ function transform (tree) {
     visitParents(
       tree,
       node => node.type === 'heading' && node.depth === depth,
-      wrapitMain
+      _wrapit
     )
   }
 }
@@ -79,7 +79,7 @@ function getClass(text) {
   }
 }
 
-function wrapitMain (node, ancestors) {
+function _wrapit (node, ancestors) {
   let header_value = node.children[0].value
 
   const Target = getTarget(header_value)
