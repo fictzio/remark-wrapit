@@ -6,6 +6,8 @@ The plugin is based on [Jake Lows remark-sectionize plugin](https://github.com/j
 
 The wrapper tags can be generated inserted down to a certain header level to allow for splitting large documents.
 
+Each section recieves an ID created from a checksum of subsequent headings on the next level.
+
 ## Goal
 
 - Set start and max depth
@@ -15,9 +17,12 @@ The wrapper tags can be generated inserted down to a certain header level to all
 - Support custom classes
 - Support targeted sections
 
-## Wrapper ID
+## Section ID
 
-The ID is generated from the heading. All content within parenthesis are removed and the string is turned into a valid ID.
+Section IDs are generated from a checksum of the headers on the next level. The order does not change the checksum.
+## Slug
+
+The slug is generated from the heading. All content within parenthesis are removed and the string is turned into a valid slug.
 
 ## Custom ID, class and target
 

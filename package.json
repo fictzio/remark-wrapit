@@ -21,6 +21,7 @@
   "author": "privatemonkey",
   "license": "MIT",
   "dependencies": {
+    "object-hash": "^2.2.0",
     "unist-util-find-after": "^4.0.0",
     "unist-util-visit-parents": "^5.1.0"
   },

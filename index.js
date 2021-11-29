@@ -1,15 +1,20 @@
-//const findAfter = require('unist-util-find-after')
-//const visit = require('unist-util-visit-parents')
 import { findAfter } from 'unist-util-find-after'
 import { visitParents } from 'unist-util-visit-parents'
+import { visit } from 'unist-util-visit'
+import hash from 'object-hash'
 
 const MAX_HEADING_DEPTH = 6
+
+let headers = []
+let lastLevel = 0
+let lastHeader = ''
 
 export default function wrapit () {
   return transform
 }
 
 function transform (tree) {
+  // Create sections and add metadata
   for (let depth = MAX_HEADING_DEPTH; depth > 0; depth--) {
     visitParents(
       tree,
@@ -17,6 +22,52 @@ function transform (tree) {
       wrap
     )
   }
+
+  visit(tree, 'heading', node => {
+    let depth = node.depth
+    let slug
+
+    // Set the header ID
+
+    // Remove parenthesis from header
+    visit(node, 'text', textNode => {
+      let hasParenthesis = textNode.value.indexOf('(')
+      slug = toSlug(textNode.value) + ''
+
+      if (depth > lastLevel) {
+        lastHeader = headers[headers.length - 1]
+        headers.push(slug)
+      } else if (depth === lastLevel) {
+        headers[headers.length - 1] = slug
+        lastHeader = headers[headers.length - 2]
+      } else {
+        for (let i = depth;i < lastLevel;i++) {
+          headers.pop()
+        }
+
+        headers[headers.length - 1] = slug
+        lastHeader = headers[headers.length - 1]
+      }
+
+      if (hasParenthesis > -1) {
+        textNode.value = textNode.value.substring(0, hasParenthesis)
+      }
+    })
+
+    let id = lastHeader + '__' + slug
+    // Set Header ID
+    if (lastHeader === slug) {
+      id = slug
+    }
+
+    node.data = {
+      "hProperties":{
+        "id":id
+      }
+    }
+
+    lastLevel = depth
+  })
 }
 
 /*
@@ -88,7 +139,6 @@ function wrap (node, ancestors) {
   const start = node
   const depth = start.depth
   const parent = ancestors[ancestors.length - 1]
-
   const isEnd = node => node.type === 'heading' && node.depth <= depth || node.type === 'export'
   const end = findAfter(parent, start, isEnd)
 
@@ -100,6 +150,9 @@ function wrap (node, ancestors) {
     endIndex > 0 ? endIndex : undefined
   )
 
+  // Create checksum from content
+  const sum = hash.keysMD5(between)
+  const slug = toSlug(header_value)
   const id = toSlug(header_value)
 
   const section = {
@@ -110,8 +163,9 @@ function wrap (node, ancestors) {
       hName: 'section',
       hProperties: {
         className: `node-level-${depth}` + `${customClass}`,
-        id: `${id}`,
-        "data-Target": Target,
+        "data-sum": `${sum}`,
+        "data-slug": `${slug}`,
+        "data-target": Target,
       },
     }
   }
