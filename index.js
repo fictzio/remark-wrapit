@@ -106,13 +106,17 @@ function toSlug(text) {
   }
 }
 
+/* Function
+* Gets the target of a section
+* TODO: Not used. Use
+*/
 function getTarget(text) {
   if (text.indexOf('(@') > 0) {
     let regExp = /\(@([^)]+)\)/;
     let target = regExp.exec(text)
-    return target[1]
+    return 'data-target="' + target[1]
     .trim()
-    .toLowerCase()
+    .toLowerCase() + '"'
   } else {
     return ''
   }
@@ -126,24 +130,24 @@ function getClass(text) {
     .trim()
     .toLowerCase()
   } else {
-    return ''
+    return ' ' + toSlug(text)
   }
 }
 
 function wrap (node, ancestors) {
   let header_value = node.children[0].value
 
-  const Target = getTarget(header_value)
+  const target = getTarget(header_value)
   let customClass = getClass(header_value)
 
-  const start = node
-  const depth = start.depth
+  const startNode = node
+  const depth = startNode.depth
   const parent = ancestors[ancestors.length - 1]
   const isEnd = node => node.type === 'heading' && node.depth <= depth || node.type === 'export'
-  const end = findAfter(parent, start, isEnd)
+  const endNode = findAfter(parent, startNode, isEnd)
 
-  const startIndex = parent.children.indexOf(start)
-  const endIndex = parent.children.indexOf(end)
+  const startIndex = parent.children.indexOf(startNode)
+  const endIndex = parent.children.indexOf(endNode)
 
   const between = parent.children.slice(
     startIndex,
@@ -151,9 +155,11 @@ function wrap (node, ancestors) {
   )
 
   // Create checksum from content
-  const sum = hash.keysMD5(between)
+  const checksumHeaders = (() => {
+    return hash.keysMD5(header_value)
+  })()
+
   const slug = toSlug(header_value)
-  const id = toSlug(header_value)
 
   const section = {
     type: 'section',
@@ -162,13 +168,15 @@ function wrap (node, ancestors) {
     data: {
       hName: 'section',
       hProperties: {
+        id: `${slug}_${checksumHeaders}`,
+        // id: `${slug}`,
         className: `node-level-${depth}` + `${customClass}`,
-        "data-sum": `${sum}`,
-        "data-slug": `${slug}`,
-        "data-target": Target,
+        "data-sum": `${checksumHeaders}`,
+        "data-slug": `${slug}`
       },
     }
   }
 
+  // Add new section to parent node
   parent.children.splice(startIndex, section.children.length, section)
 }
