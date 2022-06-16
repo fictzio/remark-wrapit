@@ -168,8 +168,8 @@ function wrap (node, ancestors) {
     data: {
       hName: 'section',
       hProperties: {
-        id: `${slug}_${checksumHeaders}`,
-        // id: `${slug}`,
+        //id: `${slug}_${checksumHeaders}`,
+        id: `${slug}`,
         className: `node-level-${depth}` + `${customClass}`,
         "data-sum": `${checksumHeaders}`,
         "data-slug": `${slug}`
