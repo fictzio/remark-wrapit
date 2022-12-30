@@ -55,6 +55,7 @@ You look to your alarm. It's now 10:42 AM. You were supposed to meet your girlfr
 ...remark will output the following HTML:
 
 ```html
+
 <section id="sunday_morning" class="node-level-1">
   <h1>Sunday morning</h1>
   <section id="waking_up" class="node-level-2 step">
