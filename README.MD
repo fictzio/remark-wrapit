@@ -52,7 +52,7 @@ You wake up to the sound of an alarm. The clock beside you shows that it's 8:00 
 You look to your alarm. It's now 10:42 AM. You were supposed to meet your girlfriend at her place at 10.
 ```
 
-...remark will output the following HTML:
+...remark-wrapit will output the following HTML:
 
 ```html
 
