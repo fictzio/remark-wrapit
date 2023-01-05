@@ -62,7 +62,7 @@ function transform (tree) {
 
     node.data = {
       "hProperties":{
-        "id":id
+        "id":id,
       }
     }
 
@@ -172,7 +172,8 @@ function wrap (node, ancestors) {
         id: `${slug}`,
         className: `node-level-${depth}` + `${customClass}`,
         "data-sum": `${checksumHeaders}`,
-        "data-slug": `${slug}`
+        "data-slug": `${slug}`,
+        "data-label": `${header_value}`
       },
     }
   }
