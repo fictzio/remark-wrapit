@@ -136,6 +136,7 @@ function getClass(text) {
 
 function wrap (node, ancestors) {
   let header_value = node.children[0].value
+  let hasParenthesis = header_value.indexOf('(')
 
   const target = getTarget(header_value)
   let customClass = getClass(header_value)
@@ -158,6 +159,10 @@ function wrap (node, ancestors) {
   const checksumHeaders = (() => {
     return hash.keysMD5(header_value)
   })()
+
+  if (hasParenthesis>-1) {
+    header_value = header_value.substring(0, hasParenthesis)
+  }
 
   const slug = toSlug(header_value)
 
